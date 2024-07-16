@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
 
-    const {user, logout} = useContext(AuthContext)
+    const {logout} = useContext(AuthContext)
 
     const [role] = useRole()
     console.log(role)
