@@ -15,6 +15,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import ManageUsers from './Components/Dashboard/Admin/ManageUsers';
 
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard></Dashboard>
+      },
+      {
+        path: "/manageUsers",
+        element: <ManageUsers></ManageUsers>
       }
     ]
   },

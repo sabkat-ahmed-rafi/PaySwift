@@ -13,7 +13,7 @@ const AgentHome = () => {
     console.log(user)
 
     const {data: balance = {}} = useQuery({
-        queryKey: ['userBalance', user?.email],
+        queryKey: ['agentBalance', user?.email],
         queryFn: async () => {
             const {data} = await axiosSecure.get(`/user/${user?.email}`);
             console.log(data);
