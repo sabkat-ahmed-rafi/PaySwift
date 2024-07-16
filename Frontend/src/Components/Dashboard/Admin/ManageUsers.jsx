@@ -4,6 +4,8 @@ import { axiosSecure } from '../../../Hooks/useAxiosSecure';
 
 const ManageUsers = () => {
 
+    let index = 1;
+
     const {data = [], refetch} = useQuery({
         queryKey: 'users',
         queryFn: async () => {
@@ -46,7 +48,7 @@ const ManageUsers = () => {
     <tbody>
       {/* row 1 */}
       {
-        data.map((user, index) => (
+        data.map((user) => (
             <tr>
               <th>{index++}</th>
               <td>{user.name}</td>

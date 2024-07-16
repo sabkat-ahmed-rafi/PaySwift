@@ -35,7 +35,7 @@ const NavBar = () => {
         
       </ul>
     </div>
-    <a className="btn btn-ghost font-bold text-[#E2126D] text-3xl hover:bg-white">PaySwift</a>
+    <Link to={'/'} className="btn btn-ghost font-bold text-[#E2126D] text-3xl hover:bg-white">PaySwift</Link>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
