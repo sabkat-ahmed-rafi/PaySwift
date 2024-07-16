@@ -106,7 +106,9 @@ async function run() {
           password: hashedPassword,
           name,
           role,
-          number
+          number,
+          accountStatus: "pending",
+          balance: 0
         };
         
         // Insert the new user into the database
