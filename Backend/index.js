@@ -52,6 +52,7 @@ async function run() {
 
     const database = client.db("PaySwift");
     const usersCollection = database.collection("users");
+    const transactions = database.collection("transactions");
 
 
     
@@ -146,11 +147,32 @@ async function run() {
         res.send(user);
       })
 
-      // getting all users from db 
+      // getting all by search users from db 
       app.get('/users', async (req, res) => {
-        const query = req.query.user
+        const search = req.query.search
+        const query = {
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { number: { $regex: search, $options: 'i' } },
+          ]
+        }
         const users = await usersCollection.find(query).toArray();
         res.send(users);
+      })
+
+      // getting all users from db 
+      app.get('/allUsers', async (req, res) => {
+        const users = await usersCollection.find().toArray();
+        res.send(users);
+      })
+
+
+      app.get('/sendAmount/:id', async (req, res) => {
+        const id = req.params.id;
+        const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+        console.log(user)
+        if (!user) return res.status(404).send({ message: "User not found" });
+        res.send(user);
       })
 
       app.patch('/changeStatus', async (req, res) => {
@@ -176,12 +198,67 @@ async function run() {
     );
 
     res.send({ success: true, user: updatedUser.value });
-
-
       })
 
 
+      app.patch('/sendMoney', async (req, res) => {
+        const money = parseInt(req.body.money);
+        const receiverEmail = req.body.email;
+        const senderEmail = req.body.senderEmail;
 
+        const receiver = await usersCollection.findOne({ email: receiverEmail });
+        const sender = await usersCollection.findOne({ email: senderEmail });
+        if (!receiver) {
+          return res.status(404).send({ message: 'User not found' });
+        }
+
+        let senderBalance = parseInt(sender.balance) - money;
+        let receiverBalance = parseInt(receiver.balance) + money;
+
+        const updatedSender = await usersCollection.findOneAndUpdate(
+          { email:senderEmail },
+          { $set: { balance: parseInt(senderBalance) } },
+          { returnOriginal: false } 
+        );
+
+        const updatedReceiver = await usersCollection.findOneAndUpdate(
+          { email: receiverEmail },
+          { $set: { balance: parseInt(receiverBalance) } },
+          { returnOriginal: false } 
+        );
+
+
+        const transaction = {
+          senderEmail,
+          receiverEmail,
+          amount: money,
+          date: new Date(),
+          senderNumber: sender.number,
+          receiverNumber: receiver.number,
+          status: 'completed'
+
+        }
+
+        const enterTransaction = await transactions.insertOne(transaction)
+
+        res.send({success: true})
+
+      })
+
+      // Checking password by comparing the password
+      app.get('/checkPassword', (req, res) => {
+        const { email, checkingPassword } = req.body;
+        
+        const user = usersCollection.findOne({ email });
+        
+        if (!user || !bcrypt.compareSync(checkingPassword, user.password)) {
+          return res.status(401).send({ message: "Invalid password" });
+        }
+        
+        res.send({ success: true });
+      }) 
+
+      
 
 
 
