@@ -17,6 +17,7 @@ import {
 } from '@tanstack/react-query'
 import ManageUsers from './Components/Dashboard/Admin/ManageUsers';
 import SendMoney from './Components/Dashboard/User/SendMoney';
+import SendAmount from './Components/Dashboard/User/SendAmount';
 
 
 
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: "/sendMoney",
         element: <SendMoney></SendMoney>
+      },
+      {
+        path: "/sendAmount/:id",
+        element: <SendAmount></SendAmount>,
+        loader: ({params}) => fetch(`${import.meta.env.VITE_BACKEND_URL}/sendAmount/${params.id}`)
       }
     ]
   },

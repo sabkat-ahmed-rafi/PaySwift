@@ -29,7 +29,7 @@ const SendMoney = () => {
                 {
                     data.map((user) => (
                         <div className='border rounded-lg w-[250px] lg:w-[350px] p-3 space-y-2' key={index++}>
-                            <Link>
+                            <Link to={`/sendAmount/${user._id}`}>
                             <h2>{user.name}</h2>
                             <p>{user.number}</p>
                             </Link>
