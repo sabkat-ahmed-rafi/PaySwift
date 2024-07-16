@@ -35,7 +35,7 @@ const NavBar = () => {
         
       </ul>
     </div>
-    <a className="btn btn-ghost font-bold text-[#E2126D] text-3xl">PaySwift</a>
+    <a className="btn btn-ghost font-bold text-[#E2126D] text-3xl hover:bg-white">PaySwift</a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
@@ -43,7 +43,7 @@ const NavBar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to={'/login'} onClick={() => logout()} className="btn">Log out</Link>
+    <Link to={'/login'} onClick={() => logout()} className="btn bg-[#E2126D] text-white">Log out</Link>
   </div>
 </div>
         </>
