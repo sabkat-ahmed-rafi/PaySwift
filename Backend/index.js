@@ -78,9 +78,7 @@ async function run() {
 
       app.get('/verify-token', verifyToken, async (req, res) => {
         const userEmail = req.user.email;
-        console.log(userEmail);
         const user = await usersCollection.findOne({ email: userEmail });
-        console.log(user)
         if (!user) return res.status(404).send({ message: "User not found" });
         res.send({ user });
       });
@@ -148,7 +146,39 @@ async function run() {
         res.send(user);
       })
 
+      // getting all users from db 
+      app.get('/users', async (req, res) => {
+        const query = req.query.user
+        const users = await usersCollection.find(query).toArray();
+        res.send(users);
+      })
 
+      app.patch('/changeStatus', async (req, res) => {
+        const {status, email} = req.body;
+
+        const user = await usersCollection.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    let newBalance = user.balance;
+
+    if (user.role === 'user') {
+      newBalance += 40;
+    } else if (user.role === 'agent') {
+      newBalance += 10000;
+    }
+
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { email },
+      { $set: { accountStatus: status, balance: newBalance } },
+      { returnOriginal: false } 
+    );
+
+    res.send({ success: true, user: updatedUser.value });
+
+
+      })
 
 
 
