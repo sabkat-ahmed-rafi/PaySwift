@@ -7,9 +7,9 @@ const ManageUsers = () => {
     let index = 1;
 
     const {data = [], refetch} = useQuery({
-        queryKey: 'users',
+        queryKey: ['allUsers'],
         queryFn: async () => {
-            const {data} = await axiosSecure.get('/users');
+            const {data} = await axiosSecure.get('/allUsers');
             return data;
         }
     })

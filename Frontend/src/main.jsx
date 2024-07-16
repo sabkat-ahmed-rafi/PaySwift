@@ -16,6 +16,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import ManageUsers from './Components/Dashboard/Admin/ManageUsers';
+import SendMoney from './Components/Dashboard/User/SendMoney';
 
 
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/manageUsers",
         element: <ManageUsers></ManageUsers>
+      },
+      {
+        path: "/sendMoney",
+        element: <SendMoney></SendMoney>
       }
     ]
   },
