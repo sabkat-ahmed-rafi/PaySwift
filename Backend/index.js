@@ -166,6 +166,23 @@ async function run() {
         res.send(users);
       })
 
+      // getting all agents 
+      app.get('/agents', async (req, res) => {
+
+        const search = req.query.search || ''
+
+        const query = {
+          role: 'agent',
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { number: { $regex: search, $options: 'i' } },
+          ]
+        }
+
+        const agents = await usersCollection.find(query).toArray();
+        res.send(agents);
+      })
+
 
       app.get('/sendAmount/:id', async (req, res) => {
         const id = req.params.id;
