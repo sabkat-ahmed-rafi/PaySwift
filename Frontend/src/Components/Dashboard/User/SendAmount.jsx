@@ -21,6 +21,8 @@ const SendAmount = () => {
         const senderEmail = user.email
         console.log(money)
 
+        if(email === senderEmail) return toast.error("You can't send money to yourself")
+
         if(user?.balance < parseInt(money) || user?.balance == 0) return toast.error('Insufficient Balance')
 
         if(parseInt(money) <= 50) return toast.error('Insufficient Balance')
