@@ -19,6 +19,7 @@ import ManageUsers from './Components/Dashboard/Admin/ManageUsers';
 import SendMoney from './Components/Dashboard/User/SendMoney';
 import SendAmount from './Components/Dashboard/User/SendAmount';
 import CheckPassword from './Components/CheckPassword';
+import CashOut from './Components/Dashboard/User/CashOut';
 
 
 
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/checkPassword",
         element: <CheckPassword></CheckPassword>
+      },
+      {
+        path: "/cashOut",
+        element: <CashOut></CashOut>,
       }
     ]
   },

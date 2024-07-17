@@ -1,35 +1,34 @@
-import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { axiosSecure } from '../../../Hooks/useAxiosSecure';
 import { Link } from 'react-router-dom';
+import { axiosSecure } from '../../../Hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
-const SendMoney = () => {
+const CashOut = () => {
+
 
     let index = 1;
     const [search, setSearch] = useState('')
 
     const {data = []} = useQuery({
-        queryKey: ['allUsers', search],
+        queryKey: ['allagents', search],
         queryFn: async () => {
-            const {data} = await axiosSecure.get(`/users?search=${search}`);
+            const {data} = await axiosSecure.get(`/agents?search=${search}`);
             return data;
         }
     })
-
-
 
     return (
         <>
             <section className='flex flex-col lg:space-y-0 space-y-3  lg:flex-row justify-center mt-12 space-x-7'>
                 <div className='pl-7 lg:pl-0 space-y-2'>
-                    <h1 className='text-xl'>Search an user</h1>
+                    <h1 className='text-xl'>Search an agents</h1>
                     <input onChange={(e) => setSearch(e.target.value)} className='input input-bordered' placeholder='Search' type="search" name="search" id="" />
                 </div>
                 <section className='overflow-y-scroll'>
                 {
                     data.map((user) => (
                         <div className='border rounded-lg w-[250px] lg:w-[350px] p-3 space-y-2' key={index++}>
-                            <Link to={`/sendAmount/${user._id}`}>
+                            <Link to={`/cashoutAmount/${user._id}`}>
                             <h2>{user.name}</h2>
                             <p>{user.number}</p>
                             </Link>
@@ -42,4 +41,4 @@ const SendMoney = () => {
     );
 };
 
-export default SendMoney;
+export default CashOut;
