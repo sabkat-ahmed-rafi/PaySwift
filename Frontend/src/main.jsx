@@ -20,6 +20,7 @@ import SendMoney from './Components/Dashboard/User/SendMoney';
 import SendAmount from './Components/Dashboard/User/SendAmount';
 import CheckPassword from './Components/CheckPassword';
 import CashOut from './Components/Dashboard/User/CashOut';
+import CashOutAmount from './Components/Dashboard/User/CashOutAmount';
 
 
 
@@ -55,6 +56,11 @@ const router = createBrowserRouter([
       {
         path: "/cashOut",
         element: <CashOut></CashOut>,
+      },
+      {
+        path: '/cashOutAmount/:id',
+        element: <CashOutAmount></CashOutAmount>,
+        loader: ({params}) => fetch(`${import.meta.env.VITE_BACKEND_URL}/cashOutAmount/${params.id}`)
       }
     ]
   },
