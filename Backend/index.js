@@ -202,12 +202,19 @@ async function run() {
 
 
       app.patch('/sendMoney', async (req, res) => {
-        const money = parseInt(req.body.money);
+
+        const fee = parseInt(req.body.money) >= 100 ? 5 : 0;
+        const money = parseInt(req.body.money) + fee;
         const receiverEmail = req.body.email;
         const senderEmail = req.body.senderEmail;
 
         const receiver = await usersCollection.findOne({ email: receiverEmail });
         const sender = await usersCollection.findOne({ email: senderEmail });
+
+        if(sender.balance < money) {
+          return res.status(403).send({ message: 'Insufficient Balance' });
+        }
+
         if (!receiver) {
           return res.status(404).send({ message: 'User not found' });
         }
