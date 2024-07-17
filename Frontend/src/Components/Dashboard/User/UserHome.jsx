@@ -35,7 +35,7 @@ const UserHome = () => {
                     <GiTakeMyMoney size={60}  className='text-2xl ' />
                     <h1 className='font-semibold'>Send Money</h1>
                 </Link>
-                <Link to={'/cashOut'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
+                <Link to={'/cashoutPinCheck'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
                     <GiMoneyStack size={60} />
                     <h1 className='font-semibold'>Cash Out</h1>
                 </Link>

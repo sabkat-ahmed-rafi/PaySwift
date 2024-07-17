@@ -21,6 +21,7 @@ import SendAmount from './Components/Dashboard/User/SendAmount';
 import CheckPassword from './Components/CheckPassword';
 import CashOut from './Components/Dashboard/User/CashOut';
 import CashOutAmount from './Components/Dashboard/User/CashOutAmount';
+import CashoutPinCheck from './Components/Dashboard/User/CashoutPinCheck';
 
 
 
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/cashOut",
         element: <CashOut></CashOut>,
+      },
+      {
+        path: '/cashoutPinCheck',
+        element: <CashoutPinCheck></CashoutPinCheck>
       },
       {
         path: '/cashOutAmount/:id',
