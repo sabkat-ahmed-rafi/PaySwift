@@ -253,13 +253,14 @@ async function run() {
       })
 
       // Checking password by comparing the password
-      app.get('/checkPassword', (req, res) => {
+      app.post('/checkPassword', async (req, res) => {
         const { email, checkingPassword } = req.body;
+        console.log(email, checkingPassword)
         
-        const user = usersCollection.findOne({ email });
+        const user = await usersCollection.findOne({ email });
         
         if (!user || !bcrypt.compareSync(checkingPassword, user.password)) {
-          return res.status(401).send({ message: "Invalid password" });
+          return res.status(401).send({ message: "Wrong password" });
         }
         
         res.send({ success: true });
