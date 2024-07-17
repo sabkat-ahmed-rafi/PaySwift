@@ -22,6 +22,9 @@ import CheckPassword from './Components/CheckPassword';
 import CashOut from './Components/Dashboard/User/CashOut';
 import CashOutAmount from './Components/Dashboard/User/CashOutAmount';
 import CashoutPinCheck from './Components/Dashboard/User/CashoutPinCheck';
+import CashIn from './Components/Dashboard/User/CashIn';
+import CashInAmount from './Components/Dashboard/User/CashInAmount';
+import UserTransaction from './Components/Dashboard/User/UserTransaction';
 
 
 
@@ -66,6 +69,19 @@ const router = createBrowserRouter([
         path: '/cashOutAmount/:id',
         element: <CashOutAmount></CashOutAmount>,
         loader: ({params}) => fetch(`${import.meta.env.VITE_BACKEND_URL}/cashOutAmount/${params.id}`)
+      },
+      {
+        path: "/cashIn",
+        element: <CashIn></CashIn>
+      },
+      {
+        path: "/cashInAmount/:id",
+        element: <CashInAmount></CashInAmount>,
+        loader: ({params}) => fetch(`${import.meta.env.VITE_BACKEND_URL}/cashInAmount/${params.id}`)
+      },
+      {
+        path: "/userTransaction",
+        element: <UserTransaction></UserTransaction>
       }
     ]
   },

@@ -43,7 +43,7 @@ const UserHome = () => {
                     <BsCashCoin size={60} />
                     <h1 className='font-semibold'>Cash in</h1>
                 </Link>
-                <Link to={'/transactionHistory'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
+                <Link to={'/userTransaction'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
                     <AiOutlineTransaction size={60} />
                     <h1 className='font-semibold'>Transaction History</h1>
                 </Link>

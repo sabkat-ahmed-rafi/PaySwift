@@ -4,7 +4,8 @@ import useAuth from '../../../Hooks/useAuth';
 import { axiosSecure } from '../../../Hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
 
-const CashOutAmount = () => {
+const CashInAmount = () => {
+
 
 
     const singleUser = useLoaderData()
@@ -22,29 +23,21 @@ const CashOutAmount = () => {
         const senderEmail = user.email
         console.log(money)
 
-
-        if(user?.balance < parseInt(money) || user?.balance == 0) return toast.error('Insufficient Balance')
-
         if(parseInt(money) < 50) return toast.error('You cannot cash out less that 50')
 
         try{
-            const {data} = await axiosSecure.post('/cashOutRequest', {money, email, senderEmail});
+            const {data} = await axiosSecure.post('/cashInRequest', {money, email, senderEmail});
 
            if(data.success) {
-               toast.success('Transfer Request Successfull')
+               toast.success('Cash in Request Successfull')
                navigate('/')
             }
         }catch(error){
             if(error){
                 toast.error('Insufficient Balance')
             }
-            
         }
-        
-
     }
-
-
 
 
     return (
@@ -60,4 +53,4 @@ const CashOutAmount = () => {
     );
 };
 
-export default CashOutAmount;
+export default CashInAmount;
