@@ -31,7 +31,7 @@ const UserHome = () => {
             <h1 className='text-center border-[#E2126D] text-2xl border w-[200px] mx-auto font-extralight px-3 py-1'>Balance: {balance.balance} TK</h1>
 
             <section className='flex justify-center space-x-2 lg:space-x-12 mt-10'>
-                <Link to={'/sendMoney'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
+                <Link to={'/checkPassword'} className='flex flex-col items-center border lg:p-5 rounded-lg text-white bg-[#E2126D] p-2'>
                     <GiTakeMyMoney size={60}  className='text-2xl ' />
                     <h1 className='font-semibold'>Send Money</h1>
                 </Link>

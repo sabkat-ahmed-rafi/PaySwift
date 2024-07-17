@@ -18,6 +18,7 @@ import {
 import ManageUsers from './Components/Dashboard/Admin/ManageUsers';
 import SendMoney from './Components/Dashboard/User/SendMoney';
 import SendAmount from './Components/Dashboard/User/SendAmount';
+import CheckPassword from './Components/CheckPassword';
 
 
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         path: "/sendAmount/:id",
         element: <SendAmount></SendAmount>,
         loader: ({params}) => fetch(`${import.meta.env.VITE_BACKEND_URL}/sendAmount/${params.id}`)
+      },
+      {
+        path: "/checkPassword",
+        element: <CheckPassword></CheckPassword>
       }
     ]
   },
