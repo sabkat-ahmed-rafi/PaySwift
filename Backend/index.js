@@ -53,6 +53,8 @@ async function run() {
     const database = client.db("PaySwift");
     const usersCollection = database.collection("users");
     const transactions = database.collection("transactions");
+    const cashoutRequests = database.collection("cashouts");
+    const cashinRequests = database.collection('cashins')
 
 
     
@@ -187,9 +189,32 @@ async function run() {
       app.get('/sendAmount/:id', async (req, res) => {
         const id = req.params.id;
         const user = await usersCollection.findOne({ _id: new ObjectId(id) });
-        console.log(user)
         if (!user) return res.status(404).send({ message: "User not found" });
         res.send(user);
+      })
+
+      app.get('/cashOutAmount/:id', async (req, res) => {
+        const id = req.params.id;
+        const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+        if (!user) return res.status(404).send({ message: "User not found" });
+        res.send(user);
+      })
+
+      app.get('/cashInAmount/:id', async (req, res) => {
+        const id = req.params.id;
+        const request = await usersCollection.findOne({ _id: new ObjectId(id) });
+        if (!request) return res.status(404).send({ message: "Request not found" });
+        res.send(request);
+      })
+
+      app.get('/userTransaction/:email', async (req, res) => {
+        const userEmail = req.params.email;
+        const transaction = await transactions.find({ $or: [
+          { senderEmail: userEmail },
+          { receiverEmail: userEmail }
+        ] }).toArray();
+
+        res.send(transaction);
       })
 
       app.patch('/changeStatus', async (req, res) => {
@@ -257,17 +282,68 @@ async function run() {
           receiverEmail,
           amount: money,
           date: new Date(),
-          senderNumber: sender.number,
-          receiverNumber: receiver.number,
+          senderNumber: sender?.number,
+          receiverNumber: receiver?.number,
+          type: 'Send Money',
           status: 'completed'
-
         }
 
         const enterTransaction = await transactions.insertOne(transaction)
+        res.send({success: true})
+      })
 
+
+      app.post('/cashOutRequest', async (req, res) => {
+        const money = parseInt(req.body.money);
+        const receiverEmail = req.body.email;
+        const senderEmail = req.body.senderEmail;
+
+        const receiver = await usersCollection.findOne({ email: receiverEmail });
+        const sender = await usersCollection.findOne({ email: senderEmail });
+ 
+        if(sender.balance < money) {
+          return res.status(403).send({ message: 'Insufficient Balance' });
+        }
+        const request = {
+          senderEmail,
+          receiverEmail,
+          amount: money,
+          date: new Date(),
+          senderNumber: sender?.number,
+          receiverNumber: receiver?.number,
+          status: 'pending'
+        }
+
+        const enterRequest = await cashoutRequests.insertOne(request)
         res.send({success: true})
 
       })
+
+      // cash in request 
+      app.post('/cashinRequest', async (req, res) => {
+        const money = parseInt(req.body.money);
+        const receiverEmail = req.body.email;
+        const senderEmail = req.body.senderEmail;
+
+
+        const receiver = await usersCollection.findOne({ email: receiverEmail });
+        const sender = await usersCollection.findOne({ email: senderEmail });
+
+        const cashInRequest = {
+          senderEmail,
+          receiverEmail,
+          amount: money,
+          date: new Date(),
+          senderNumber: sender?.number,
+          receiverNumber: receiver?.number,
+          status: 'pending'
+        }
+
+        const enterRequest = await cashinRequests.insertOne(cashInRequest)
+        res.send({success: true})
+
+      })
+
 
       // Checking password by comparing the password
       app.post('/checkPassword', async (req, res) => {
