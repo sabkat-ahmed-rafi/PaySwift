@@ -1,12 +1,14 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { axiosSecure } from '../../../Hooks/useAxiosSecure';
 import useAuth from '../../../Hooks/useAuth';
+import toast from 'react-hot-toast'
 
 const SendAmount = () => {
 
     const singleUser = useLoaderData()
     const {user} = useAuth()
+    const navigate = useNavigate()
 
     console.log(singleUser)
 
@@ -19,7 +21,23 @@ const SendAmount = () => {
         const senderEmail = user.email
         console.log(money)
 
-        const {data} = await axiosSecure.patch('/sendMoney', {money, email, senderEmail});
+        if(user?.balance < parseInt(money) || user?.balance == 0) return toast.error('Insufficient Balance')
+
+        if(parseInt(money) <= 50) return toast.error('Insufficient Balance')
+
+        try{
+            const {data} = await axiosSecure.patch('/sendMoney', {money, email, senderEmail});
+
+        if(data.success) {
+            toast.success('Money transfered successfully')
+            navigate('/')
+        }
+        }catch(error){
+            if(error.response.data.message === 'Insufficient Balance'){
+                toast.error('Insufficient Balance')
+            }
+            
+        }
         
 
     }
